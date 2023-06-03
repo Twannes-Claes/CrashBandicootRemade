@@ -12,6 +12,8 @@ void Character::Initialize(const SceneContext& /*sceneContext*/)
 	//Controller
 	m_pControllerComponent = AddComponent(new ControllerComponent(m_CharacterDesc.controller));
 
+	m_pControllerComponent->SetCollisionGroup(CollisionGroup::Group9);
+
 	//Camera
 	const auto pCamera = AddChild(new FixedCamera());
 	m_pCameraComponent = pCamera->GetComponent<CameraComponent>();
@@ -69,6 +71,8 @@ void Character::Update(const SceneContext& sceneContext)
 			move.x = InputManager::GetThumbstickPosition().x;
 		}
 
+		m_InputAxis = move;
+
 		//## Input Gathering (look)
 		XMFLOAT2 look{ 0.f, 0.f };
 
@@ -86,7 +90,15 @@ void Character::Update(const SceneContext& sceneContext)
 
 		if(abs(look.x) < epsilon && abs(look.y) < epsilon)
 		{
-			look = InputManager::GetThumbstickPosition();
+			const XMFLOAT2 thumbPos = InputManager::GetThumbstickPosition(false);
+
+			XMVECTOR thumbstickVector = XMLoadFloat2(&thumbPos);
+
+			thumbstickVector = XMVectorSetX(thumbstickVector, -1.0f * XMVectorGetX(thumbstickVector));
+
+			thumbstickVector = XMVectorScale(thumbstickVector, -(m_CharacterDesc.controllerRotationSpeed));
+
+			XMStoreFloat2(&look, thumbstickVector);
 		}
 
 		//************************
@@ -122,6 +134,8 @@ void Character::Update(const SceneContext& sceneContext)
 
 			//rotate camera not character
 			sceneContext.pCamera->GetTransform()->Rotate(m_TotalPitch, 0.f, 0.f);
+
+			//std::cout << m_TotalPitch << "\n";
 		}
 		
 
@@ -169,29 +183,35 @@ void Character::Update(const SceneContext& sceneContext)
 
 		//## Vertical Movement (Jump/Fall)
 		//If the Controller Component is NOT grounded (= freefall)
+
+		//try on the raycast but dont know how to filtert out the player collision
+
 		if ((m_pControllerComponent->GetCollisionFlags() & PxControllerCollisionFlag::eCOLLISION_DOWN) == false)
 		{
 			//Decrease the y component of m_TotalVelocity with a fraction (ElapsedTime) of the Fall Acceleration (m_FallAcceleration)
 			m_TotalVelocity.y -= elapsedSeconds * m_FallAcceleration;
 			//Make sure that the minimum speed stays above -CharacterDesc::maxFallSpeed (negative!)
 
-			if(m_TotalVelocity.y < -m_CharacterDesc.maxFallSpeed)
+			if (m_TotalVelocity.y < -m_CharacterDesc.maxFallSpeed)
 			{
 				m_TotalVelocity.y = -m_CharacterDesc.maxFallSpeed;
 			}
 
+			m_Grounded = false;
 		}
 		//Else If the jump action is triggered
 		else if (sceneContext.pInput->IsActionTriggered(m_CharacterDesc.actionId_Jump))
 		{
 			//Set m_TotalVelocity.y equal to CharacterDesc::JumpSpeed
 			m_TotalVelocity.y = m_CharacterDesc.JumpSpeed;
+			m_Grounded = true;
 		}
 		//Else (=Character is grounded, no input pressed)
 		else
 		{
 			//m_TotalVelocity.y is zero
-			m_TotalVelocity.y = 0;
+			m_TotalVelocity.y -= 0.01f;
+			m_Grounded = true;
 		}
 
 		//************

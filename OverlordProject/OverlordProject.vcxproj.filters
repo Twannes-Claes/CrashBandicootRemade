@@ -15,7 +15,10 @@
     <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow_Skinned.cpp" />
-    <ClCompile Include="Scenes\TestScene.cpp" />
+    <ClCompile Include="Scenes\MainScene.cpp" />
+    <ClCompile Include="Prefabs\Player.cpp" />
+    <ClCompile Include="Prefabs\Level.cpp" />
+    <ClCompile Include="Prefabs\Crate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -31,6 +34,9 @@
     <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow_Skinned.h" />
-    <ClInclude Include="Scenes\TestScene.h" />
+    <ClInclude Include="Scenes\MainScene.h" />
+    <ClInclude Include="Prefabs\Player.h" />
+    <ClInclude Include="Prefabs\Level.h" />
+    <ClInclude Include="Prefabs\Crate.h" />
   </ItemGroup>
 </Project>

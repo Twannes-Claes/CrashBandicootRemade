@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MainGame.h"
 
-#include "Scenes/TestScene.h"
+#include "Scenes/MainScene.h"
 
 //Game is preparing
 void MainGame::OnGamePreparing(GameContext& gameContext)
@@ -18,7 +18,7 @@ void MainGame::OnGamePreparing(GameContext& gameContext)
 void MainGame::Initialize()
 {
 	//SceneManager::Get()->AddGameScene(new MinionScene());
-	SceneManager::Get()->AddGameScene(new CharacterScene());
+	SceneManager::Get()->AddGameScene(new MainScene());
 }
 
 LRESULT MainGame::WindowProcedureHook(HWND /*hWnd*/, UINT message, WPARAM wParam, LPARAM lParam)

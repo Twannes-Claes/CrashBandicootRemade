@@ -25,6 +25,7 @@ struct CharacterDesc
 	PxCapsuleControllerDesc controller{};
 
 	float rotationSpeed{ 60.f };
+	float controllerRotationSpeed{ 60.f };
 
 	int actionId_MoveLeft{ -1 };
 	int actionId_MoveRight{ -1 };
@@ -57,12 +58,19 @@ public:
 
 	CameraComponent* GetCamera() const { return m_pCameraComponent; }
 
+	XMFLOAT3 GetVelocity() const { return m_TotalVelocity; }
+	XMFLOAT2 GetInputAxis() const { return m_InputAxis; }
+
+	bool OnGround() const { return m_Grounded; }
+
 protected:
 
 	void Initialize(const SceneContext&) override;
 	void Update(const SceneContext&) override;
 
 private:
+
+
 
 	CameraComponent* m_pCameraComponent{};
 	ControllerComponent* m_pControllerComponent{};
@@ -74,7 +82,11 @@ private:
 		m_FallAcceleration{},						//Acceleration required to reach maxFallVelocity after 1 second (maxFallVelocity / fallAccelerationTime)
 		m_MoveSpeed{};								//MoveSpeed > Horizontal Velocity = MoveDirection * MoveVelocity (= TotalVelocity.xz)
 
+	bool m_Grounded{};
+
 	XMFLOAT3 m_TotalVelocity{};						//TotalVelocity with X/Z for Horizontal Movement AND Y for Vertical Movement (fall/jump)
 	XMFLOAT3 m_CurrentDirection{};					//Current/Last Direction based on Camera forward/right (Stored for deacceleration)
+
+	XMFLOAT2 m_InputAxis{};
 };
 

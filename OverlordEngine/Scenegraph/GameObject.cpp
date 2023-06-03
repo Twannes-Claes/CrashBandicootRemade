@@ -71,15 +71,25 @@ void GameObject::RootUpdate(const SceneContext& sceneContext)
 	Update(sceneContext);
 	
 	//Component Update
-	for(BaseComponent* pComp: m_pComponents)
+	//for(BaseComponent* pComp: m_pComponents)
+	//{
+	//	pComp->Update(sceneContext);
+	//}
+
+	for(int i{}; i < m_pComponents.size(); ++i)
 	{
-		pComp->Update(sceneContext);
+		m_pComponents[i]->Update(sceneContext);
 	}
 
 	//Root-Object Update
-	for(GameObject* pChild: m_pChildren)
+	//for(GameObject* pChild: m_pChildren)
+	//{
+	//	pChild->RootUpdate(sceneContext);
+	//}
+
+	for (int i{}; i < m_pChildren.size(); ++i)
 	{
-		pChild->RootUpdate(sceneContext);
+		m_pChildren[i]->RootUpdate(sceneContext);
 	}
 }
 void GameObject::RootDraw(const SceneContext& sceneContext)
