@@ -19,6 +19,7 @@
     <ClCompile Include="Prefabs\Player.cpp" />
     <ClCompile Include="Prefabs\Level.cpp" />
     <ClCompile Include="Prefabs\Crate.cpp" />
+    <ClCompile Include="Materials\Post\PostPixel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -38,5 +39,6 @@
     <ClInclude Include="Prefabs\Player.h" />
     <ClInclude Include="Prefabs\Level.h" />
     <ClInclude Include="Prefabs\Crate.h" />
+    <ClInclude Include="Materials\Post\PostPixel.h" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class PostPixel;
 
 class MainScene final : public GameScene
 {
@@ -21,5 +22,7 @@ protected:
 private:
 
 	Player* m_pPlayer{};
+
+	PostPixel* m_pPostPixel;
 };
 

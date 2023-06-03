@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Materials\Post\PostPixel.cpp" />
     <ClCompile Include="Prefabs\Crate.cpp" />
     <ClCompile Include="Prefabs\Level.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
@@ -130,6 +131,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Materials\Post\PostPixel.h" />
     <ClInclude Include="Prefabs\Crate.h" />
     <ClInclude Include="Prefabs\Level.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
