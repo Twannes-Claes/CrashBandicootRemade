@@ -28,6 +28,8 @@ void MainScene::Initialize()
 	m_pPostBlur->SetIsEnabled(true);
 
 	m_pPostPixel->SetPixelResolution(m_PixelRes[0], m_PixelRes[1]);
+	m_pPostBlur->SetOffset(m_BlurOffset);
+	m_pPostBlur->SetSamples(m_BlurAmountSamples);
 }
 
 void MainScene::Update()
@@ -50,4 +52,10 @@ void MainScene::OnGUI()
 	ImGui::SliderFloat2("Pixel resolution", m_PixelRes, 50, 600);
 
 	m_pPostPixel->SetPixelResolution(m_PixelRes[0], m_PixelRes[1]);
+
+	ImGui::SliderFloat("Blur offset", &m_BlurOffset, 0, 10);
+	m_pPostBlur->SetOffset(m_BlurOffset);
+
+	ImGui::SliderInt("Blur samples", &m_BlurAmountSamples, 2, 25);
+	m_pPostBlur->SetSamples(m_BlurAmountSamples);
 }

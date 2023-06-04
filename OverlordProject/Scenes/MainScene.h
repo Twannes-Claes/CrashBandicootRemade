@@ -29,5 +29,9 @@ private:
 	PostBlur* m_pPostBlur;
 
 	float m_PixelRes[2]{256, 224};
+
+	float m_BlurOffset{ 1 };
+
+	int m_BlurAmountSamples{ 5 };
 };
 

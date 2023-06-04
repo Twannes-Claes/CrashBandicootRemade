@@ -10,6 +10,10 @@ SamplerState samPoint
 
 Texture2D gTexture;
 
+float gOffset;
+
+int gAmountSamples;
+
 /// Create Depth Stencil State (ENABLE DEPTH WRITING)
 
 DepthStencilState EnableDepthWriting
@@ -76,7 +80,7 @@ float4 PS(PS_INPUT input): SV_Target
 	
     float4 finalColor = float4(0, 0, 0, 1);
     
-    const int numTimes = 5;
+    const int numTimes = gAmountSamples;
     const int halfTimes = numTimes / 2;
     
     float2 offset;
@@ -85,7 +89,7 @@ float4 PS(PS_INPUT input): SV_Target
     {
         for (int j = -halfTimes; j <= halfTimes; ++j)
         {
-            offset = float2(i * 2.f, j * 2.f) * d;
+            offset = float2(i * gOffset, j * gOffset) * d;
             
             float4 color = gTexture.Sample(samPoint, input.TexCoord + offset);
 
