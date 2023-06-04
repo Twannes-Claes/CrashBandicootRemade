@@ -1,4 +1,5 @@
 #pragma once
+class PostBlur;
 class Player;
 class PostPixel;
 
@@ -24,5 +25,9 @@ private:
 	Player* m_pPlayer{};
 
 	PostPixel* m_pPostPixel;
+
+	PostBlur* m_pPostBlur;
+
+	float m_PixelRes[2]{256, 224};
 };
 

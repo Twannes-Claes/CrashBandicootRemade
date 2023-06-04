@@ -12,6 +12,7 @@ public:
 	static void Initialize(const GameContext& gameContext);
 	static void Release();
 
+	static bool IsMouseCentered() { return !m_ForceToCenter; };
 	static void ForceMouseToCenter(bool force);
 	static void SetEnabled(bool enabled)
 	{

@@ -101,6 +101,11 @@ void Character::Update(const SceneContext& sceneContext)
 			XMStoreFloat2(&look, thumbstickVector);
 		}
 
+		if(InputManager::IsMouseCentered())
+		{
+			look = XMFLOAT2(0, 0);
+		}
+
 		//************************
 		//GATHERING TRANSFORM INFO
 

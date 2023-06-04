@@ -20,6 +20,7 @@
     <ClCompile Include="Prefabs\Level.cpp" />
     <ClCompile Include="Prefabs\Crate.cpp" />
     <ClCompile Include="Materials\Post\PostPixel.cpp" />
+    <ClCompile Include="Materials\Post\PostBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -40,5 +41,6 @@
     <ClInclude Include="Prefabs\Level.h" />
     <ClInclude Include="Prefabs\Crate.h" />
     <ClInclude Include="Materials\Post\PostPixel.h" />
+    <ClInclude Include="Materials\Post\PostBlur.h" />
   </ItemGroup>
 </Project>

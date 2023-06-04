@@ -10,6 +10,8 @@ SamplerState samPoint
 
 Texture2D gTexture;
 
+float2 gResolution;
+
 /// Create Depth Stencil State (ENABLE DEPTH WRITING)
 
 DepthStencilState EnableDepthWriting
@@ -61,49 +63,27 @@ PS_INPUT VS(VS_INPUT input)
 //------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-	// Step 1: find the dimensions of the texture (the texture has a method for that)
-	
-    float2 size;
-    gTexture.GetDimensions(size.x, size.y);
-
-	// Step 2: calculate dx and dy (UV space for 1 pixel)	
-	
-    const float2 d = 1.f / size;
-	
-	// Step 3: Create a double for loop (5 iterations each)
-	//		   Inside the loop, calculate the offset in each direction. Make sure not to take every pixel but move by 2 pixels each time
-	//			Do a texture lookup using your previously calculated uv coordinates + the offset, and add to the final color
-	
-    float4 finalColor = float4(0, 0, 0, 1);
+    float rows = gResolution.y;
+    float colls = gResolution.x;
     
-    const int numTimes = 5;
-    const int halfTimes = numTimes / 2;
+    float2 uv = input.TexCoord;
     
-    float2 offset;
+    uv.x *= colls;
+    uv.y *= rows;
     
-    for (int i = -halfTimes; i <= halfTimes; ++i)
-    {
-        for (int j = -halfTimes; j <= halfTimes; ++j)
-        {
-            offset = float2(i * 2.f, j * 2.f) * d;
-            
-            float4 color = gTexture.Sample(samPoint, input.TexCoord + offset);
-
-            finalColor += color;
-        }
-    }
-	
-	// Step 4: Divide the final color by the number of passes (in this case 5*5)	
-    finalColor /= (numTimes * numTimes);
+    uv.x = round(uv.x);
+    uv.y = round(uv.y);
     
-	// Step 5: return the final color
-    return finalColor;
+    uv.x /= colls;
+    uv.y /= rows;
+    
+    return gTexture.Sample(samPoint, uv);
 }
 
 
 //TECHNIQUE
 //---------
-technique11 Blur
+technique11 Pixelated
 {
     pass P0
     {
