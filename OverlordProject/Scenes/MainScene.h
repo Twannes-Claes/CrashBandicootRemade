@@ -24,9 +24,9 @@ private:
 
 	Player* m_pPlayer{};
 
-	PostPixel* m_pPostPixel;
+	PostPixel* m_pPostPixel{};
 
-	PostBlur* m_pPostBlur;
+	PostBlur* m_pPostBlur{};
 
 	float m_PixelRes[2]{256, 224};
 

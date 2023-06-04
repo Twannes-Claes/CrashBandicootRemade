@@ -45,7 +45,7 @@ private:
 		Attack
 	};
 
-	void SetState(const PlayerState& state);
+	void SetState(const PlayerState& state) const;
 	void CheckJump(const SceneContext& sceneContext);
 
 	void ChecKAttack(const SceneContext& sceneContext);

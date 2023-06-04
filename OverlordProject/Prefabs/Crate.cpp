@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "Crate.h"
 
+#include "Level.h"
 #include "Player.h"
+#include "Wumpa.h"
 #include "Materials/DiffuseMaterial.h"
 #include "Materials/Shadow/DiffuseMaterial_Shadow.h"
 
-Crate::Crate(float x, float y, float z, bool hasWumpa)
+Crate::Crate(const XMFLOAT3& pos, bool hasWumpa, Level* pLevel)
 :m_HasWumpa(hasWumpa),
-m_Position(PxVec3(x, y, z))
+m_Position(pos),
+m_pLevel(pLevel)
 {}
 
 void Crate::Initialize(const SceneContext& /*sceneContext*/)
@@ -44,9 +47,9 @@ void Crate::Initialize(const SceneContext& /*sceneContext*/)
 	pRigid->SetCollisionGroup(CollisionGroup::Group8);
 	pRigid->SetCollisionIgnoreGroups(~CollisionGroup::Group9);
 
-	pObject->SetOnTriggerCallBack([this](GameObject* self, GameObject* triggeredObject, PxTriggerAction action)
+	pObject->SetOnTriggerCallBack([this](GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action)
 		{
-			OnTriggerEvent(self, triggeredObject, action);
+			OnTriggerEvent(pTriggerObject, pOtherObject, action);
 		});
 
 	pObject->GetTransform()->Scale(m_Scale, m_Scale, m_Scale);
@@ -62,6 +65,11 @@ void Crate::Update(const SceneContext& /*sceneContext*/)
 		if(Player::IsPlayerAttacking())
 		{
 			//std::cout << "Player Inside attacking\n";
+			if(m_HasWumpa)
+			{
+				SpawnWumpa();
+			}
+
 			GetParent()->RemoveChild(this, true);
 		}
 	}
@@ -77,4 +85,10 @@ void Crate::OnTriggerEvent(GameObject* , GameObject* , PxTriggerAction action)
 	{
 		m_PlayerInside = false;
 	}
+}
+
+void Crate::SpawnWumpa() const
+{
+	const auto pWumpa = m_pLevel->AddChild(new Wumpa(m_Position));
+	pWumpa->GetTransform()->Translate(0, 0, 0);
 }

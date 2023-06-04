@@ -2,6 +2,7 @@
 #include "Level.h"
 
 #include "Crate.h"
+#include "Wumpa.h"
 #include "Materials/ColorMaterial.h"
 #include "Materials/DiffuseMaterial.h"
 #include "Materials/Shadow/DiffuseMaterial_Shadow.h"
@@ -46,14 +47,14 @@ void Level::Initialize(const SceneContext&)
 
 	SpawnCrate(0, cratesize /2, -20, false);
 	SpawnCrate(0, cratesize * 1.5f, -20, true);
-	SpawnCrate(0, cratesize * 1.5f, -20, true);
+	SpawnCrate(0, cratesize * 1.5f, -15, true);
 	SpawnCrate(0, cratesize * 1.5f, -25, true);
 	SpawnCrate(0, cratesize * 1.5f, -30, true);
 	SpawnCrate(0, cratesize * 1.5f, -35, true);
 	SpawnCrate(0, cratesize * 1.5f, -40, true);
 
 	SpawnCrate(5, cratesize * 1.5f, -20, true);
-	SpawnCrate(5, cratesize * 1.5f, -20, true);
+	SpawnCrate(5, cratesize * 1.5f, -15, true);
 	SpawnCrate(5, cratesize * 1.5f, -25, true);
 	SpawnCrate(5, cratesize * 1.5f, -30, true);
 	SpawnCrate(5, cratesize * 1.5f, -35, true);
@@ -62,7 +63,7 @@ void Level::Initialize(const SceneContext&)
 
 void Level::SpawnCrate(float x, float y, float z, bool hasWumpa)
 {
-	const auto crate = AddChild(new Crate(x,y,z, hasWumpa));
+	const auto crate = AddChild(new Crate(XMFLOAT3(x,y,z), hasWumpa, this));
 
 	crate->GetTransform()->Translate(0, 0, 0);
 }

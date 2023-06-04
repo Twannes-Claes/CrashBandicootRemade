@@ -125,6 +125,7 @@
     </ClCompile>
     <ClCompile Include="Materials\UberMaterial.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
+    <ClCompile Include="Prefabs\Wumpa.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OverlordEngine\OverlordEngine.vcxproj">
@@ -151,6 +152,7 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Materials\UberMaterial.h" />
     <ClInclude Include="Scenes\MainScene.h" />
+    <ClInclude Include="Prefabs\Wumpa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

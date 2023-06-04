@@ -157,7 +157,7 @@ void Player::Update(const SceneContext& sceneContext)
 	}
 }
 
-void Player::SetState(const PlayerState& state)
+void Player::SetState(const PlayerState& state) const
 {
 	m_pAnimator->SetAnimation(state);
 	m_CurrentState = state;

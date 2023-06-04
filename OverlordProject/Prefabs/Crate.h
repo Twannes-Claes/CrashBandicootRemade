@@ -1,9 +1,11 @@
 #pragma once
+class Level;
+
 class Crate final : public GameObject
 {
 public:
 
-	Crate(float x, float y, float z, bool hasWumpa);
+	Crate(const XMFLOAT3& pos, bool hasWumpa, Level* pLevel);
 	virtual ~Crate() override = default;
 	Crate(const Crate& other) = delete;
 	Crate(Crate&& other) noexcept = delete;
@@ -21,7 +23,9 @@ private:
 
 	void OnTriggerEvent(GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action);
 
-	PxVec3 m_Position{};
+	void SpawnWumpa() const;
+
+	const XMFLOAT3 m_Position{};
 
 	inline constexpr static float m_Scale{ 0.75f };
 
@@ -29,5 +33,6 @@ private:
 
 	bool m_PlayerInside{};
 
+	Level* m_pLevel{};
 };
 

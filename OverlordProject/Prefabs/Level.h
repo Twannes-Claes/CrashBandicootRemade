@@ -11,7 +11,7 @@ public:
 	Level& operator=(const Level& other) = delete;
 	Level& operator=(Level&& other) noexcept = delete;
 
-	void DrawImGUI(){};
+	void DrawImGUI() const {};
 
 protected:
 
@@ -25,4 +25,5 @@ private:
 	GameScene* m_pGameScene{};
 
 };
+
 
