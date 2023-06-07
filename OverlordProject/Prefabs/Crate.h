@@ -5,7 +5,14 @@ class Crate final : public GameObject
 {
 public:
 
-	Crate(const XMFLOAT3& pos, bool hasWumpa, Level* pLevel);
+	enum class CrateState
+	{
+		Normal,
+		Fruit,
+		Metal
+	};
+
+	Crate(const XMFLOAT3& pos, const CrateState& model, Level* pLevel);
 	virtual ~Crate() override = default;
 	Crate(const Crate& other) = delete;
 	Crate(Crate&& other) noexcept = delete;
@@ -15,11 +22,13 @@ public:
 	static float GetCrateSize() { return m_Scale * 2; }
 
 protected:
-
 	void Initialize(const SceneContext&) override;
 	void Update(const SceneContext&) override;
 
 private:
+
+	FMOD::Sound* m_pBreakSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 
 	void OnTriggerEvent(GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action);
 
@@ -29,7 +38,7 @@ private:
 
 	inline constexpr static float m_Scale{ 0.75f };
 
-	const bool m_HasWumpa{};
+	const CrateState m_State{};
 
 	bool m_PlayerInside{};
 

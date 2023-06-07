@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CameraComponent.h"
 
+#include "Utils/FmodHelper.h"
+
 CameraComponent::CameraComponent() :
 	m_FarPlane(2500.0f),
 	m_NearPlane(0.1f),
@@ -46,6 +48,28 @@ void CameraComponent::Update(const SceneContext& sceneContext)
 	XMStoreFloat4x4(&m_ViewInverse, viewInv);
 	XMStoreFloat4x4(&m_ViewProjection, view * projection);
 	XMStoreFloat4x4(&m_ViewProjectionInverse, viewProjectionInv);
+
+	SetSoundSettings(sceneContext);
+}
+
+void CameraComponent::SetSoundSettings(const SceneContext& sceneContext)
+{
+	//Convert to FMOD UGH
+	const auto pCamTransform{ GetTransform() };
+	const auto pos = FmodHelper::ToFmod(pCamTransform->GetWorldPosition());
+	const auto forward = FmodHelper::ToFmod(pCamTransform->GetForward());
+	const auto up = FmodHelper::ToFmod(pCamTransform->GetUp());
+
+	//Calc velocity prev frame
+	FMOD_VECTOR vel{};
+	const float deltaT = sceneContext.pGameTime->GetElapsed();
+	vel.x = (pos.x - m_PrevCamPos.x) / deltaT;
+	vel.y = (pos.y - m_PrevCamPos.y) / deltaT;
+	vel.z = (pos.z - m_PrevCamPos.z) / deltaT;
+	m_PrevCamPos = pos;
+
+	//Set the attributes for the listener
+	SoundManager::Get()->GetSystem()->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 }
 
 void CameraComponent::SetActive(bool active)

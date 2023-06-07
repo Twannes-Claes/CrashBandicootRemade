@@ -120,18 +120,28 @@ void ParticleEmitterComponent::SpawnParticle(Particle& p)
 
 	p.currentEnergy = p.totalEnergy = MathHelper::randF(m_EmitterSettings.minEnergy, m_EmitterSettings.maxEnergy);
 
-	constexpr XMFLOAT3 randomDir{1, 0, 0};
+	//constexpr XMFLOAT3 randomDir{1, 0, 0};
+	//
+	//const auto matrix= XMMatrixRotationRollPitchYaw
+	//(
+	//	MathHelper::randF(-XM_PI, XM_PI),
+	//	MathHelper::randF(-XM_PI, XM_PI),
+	//	MathHelper::randF(-XM_PI, XM_PI)
+	//);
+	//
+	//XMVector3TransformNormal(XMLoadFloat3(&randomDir), matrix);
 
-	const auto matrix= XMMatrixRotationRollPitchYaw
-	(
-		MathHelper::randF(-XM_PI, XM_PI),
-		MathHelper::randF(-XM_PI, XM_PI),
-		MathHelper::randF(-XM_PI, XM_PI)
-	);
+	const XMVECTOR randomDir
+	{
+		XMVector3Normalize(
+		{
+			MathHelper::randF(-1.0f, 1.0f),
+			MathHelper::randF(-1.0f, 1.0f),
+			MathHelper::randF(-1.0f, 1.0f)
+		})
+	};
 
-	XMVector3TransformNormal(XMLoadFloat3(&randomDir), matrix);
-
-	XMStoreFloat3(&p.vertexInfo.Position, XMLoadFloat3(&GetTransform()->GetWorldPosition()) + XMLoadFloat3(&randomDir) * MathHelper::randF(m_EmitterSettings.minEnergy, m_EmitterSettings.maxEmitterRadius));
+	XMStoreFloat3(&p.vertexInfo.Position, XMLoadFloat3(&GetTransform()->GetWorldPosition()) + randomDir * MathHelper::randF(m_EmitterSettings.minEmitterRadius, m_EmitterSettings.maxEmitterRadius));
 
 	p.vertexInfo.Size = p.initialSize = MathHelper::randF(m_EmitterSettings.minSize, m_EmitterSettings.maxSize);
 

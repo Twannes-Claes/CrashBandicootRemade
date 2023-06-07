@@ -30,7 +30,7 @@ private:
 
 	float m_PixelRes[2]{256, 224};
 
-	float m_BlurOffset{ 1 };
+	float m_BlurOffset{ 1.25f };
 
 	int m_BlurAmountSamples{ 5 };
 };

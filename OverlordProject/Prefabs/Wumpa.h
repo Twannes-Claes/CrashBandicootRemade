@@ -16,6 +16,9 @@ protected:
 
 private:
 
+	FMOD::Sound* m_pBreakSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
+
 	const XMFLOAT3 m_SpawnPos{};
 
 	const PxMaterial* m_pMat{};
@@ -25,11 +28,6 @@ private:
 	RigidBodyComponent* m_pRigid{};
 
 	bool m_CanDelete{};
-
-	//-1 is cant add, 1 is can add, 0 is already added
-	int m_CanAddCollider{-1};
-
-	float m_CollisionTimer{0.5f};
 
 	void OnTriggerEvent(GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action);
 };

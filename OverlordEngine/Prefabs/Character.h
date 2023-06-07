@@ -70,7 +70,8 @@ protected:
 
 private:
 
-
+	FMOD::Sound* m_pJumpSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 
 	CameraComponent* m_pCameraComponent{};
 	ControllerComponent* m_pControllerComponent{};

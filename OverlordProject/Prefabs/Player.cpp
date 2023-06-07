@@ -4,13 +4,12 @@
 #include "Materials/DiffuseMaterial.h"
 #include "Materials/DiffuseMaterial_Skinned.h"
 #include "Materials/Shadow/DiffuseMaterial_Shadow_Skinned.h"
+#include "Particles/SpinParticle.h"
 #include "Prefabs/Character.h"
 
 void Player::Initialize(const SceneContext& sceneContext)
 {
 	InputManager::ForceMouseToCenter(m_LockCursor);
-
-	sceneContext.pLights->SetDirectionalLight({ -95.6139526f,66.1346436f,-41.1850471f }, { 0.740129888f, -0.597205281f, 0.309117377f });
 
 	const auto pDefaultMaterial = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.5f);
 
@@ -67,7 +66,7 @@ void Player::Initialize(const SceneContext& sceneContext)
 	pMatShoes->SetDiffuseTexture(L"Textures/CrashShoes.dds");
 
 	m_pCharacter = AddChild(new Character(characterDesc));
-	m_pCharacter->GetTransform()->Translate(0.f, 5.f, 0.f);
+	m_pCharacter->GetTransform()->Translate(m_StartPos);
 
 	m_pCharacter->GetCamera()->GetTransform()->Translate(0.f, 1.5f, -4.f);
 
@@ -80,7 +79,7 @@ void Player::Initialize(const SceneContext& sceneContext)
 
 	m_pPlayer->GetTransform()->Scale(0.015f, 0.015f, 0.015f);
 	m_pPlayer->GetTransform()->Rotate(0.f, 180.f, 0.f);
-	m_pPlayer->GetTransform()->Translate(0.f, -1.3f, 0.f);
+	m_pPlayer->GetTransform()->Translate(0.f, -1.73f, 0.f);
 
 	m_pAnimator = pModel->GetAnimator();
 
@@ -89,7 +88,20 @@ void Player::Initialize(const SceneContext& sceneContext)
 		m_pAnimator->SetAnimationSpeed(200);
 		m_pAnimator->SetAnimation(Idle);
 		m_pAnimator->Play();
-	} 
+	}
+
+	m_pSpinPart = GetScene()->AddChild(new SpinParticle(m_pCharacter->GetTransform()->GetWorldPosition()));
+
+	//sounds
+
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::stringstream filePath{};
+	filePath << "Resources/Sounds/Spin.mp3";
+	const auto result = pFmod->createStream(filePath.str().c_str(), FMOD_DEFAULT, nullptr, &m_pSpinSound);
+
+	SoundManager::Get()->ErrorCheck(result);
+
+	m_pChannel->setVolume(10.7f);
 }
 
 void Player::Update(const SceneContext& sceneContext)
@@ -146,6 +158,7 @@ void Player::Update(const SceneContext& sceneContext)
 		{
 			if (sceneContext.pInput->IsActionTriggered(CharacterAttackEnd))
 			{
+				//GetScene()->RemoveChild(m_pSpinPart, false);
 				SetState(Idle);
 			}
 
@@ -155,6 +168,20 @@ void Player::Update(const SceneContext& sceneContext)
 		default:
 			break;
 	}
+
+	if(m_CurrentState == Attack)
+	{
+		m_pSpinPart->GetTransform()->Translate(m_pCharacter->GetTransform()->GetWorldPosition());
+	}
+	else
+	{
+		m_pSpinPart->GetTransform()->Translate(m_ParticleHidePos);
+	}
+}
+
+void Player::AttackCancelCheck()
+{
+
 }
 
 void Player::SetState(const PlayerState& state) const
@@ -176,6 +203,12 @@ void Player::ChecKAttack(const SceneContext& sceneContext)
 	if (m_CurrentState != Attack && sceneContext.pInput->IsActionTriggered(CharacterAttackStart))
 	{
 		SetState(Attack);
+
+		const auto pFmod{ SoundManager::Get()->GetSystem() };
+
+		const auto result = pFmod->playSound(m_pSpinSound, nullptr, false, &m_pChannel);
+
+		SoundManager::Get()->ErrorCheck(result);
 	}
 }
 

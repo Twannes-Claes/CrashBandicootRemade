@@ -121,5 +121,6 @@
     <ClInclude Include="Graphics\ShadowMapRenderer.h" />
     <ClInclude Include="Components\ParticleEmitterComponent.h" />
     <ClInclude Include="Prefabs\Character.h" />
+    <ClInclude Include="Utils\FmodHelper.h" />
   </ItemGroup>
 </Project>

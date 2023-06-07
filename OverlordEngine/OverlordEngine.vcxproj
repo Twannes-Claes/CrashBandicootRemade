@@ -116,6 +116,7 @@
     <ClInclude Include="Prefabs\Character.h" />
     <ClInclude Include="Prefabs\FixedCamera.h" />
     <ClInclude Include="Prefabs\FreeCamera.h" />
+    <ClInclude Include="Utils\FmodHelper.h" />
     <ClInclude Include="Utils\ImguiHelper.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>

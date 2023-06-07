@@ -5,7 +5,16 @@ Character::Character(const CharacterDesc& characterDesc) :
 	m_CharacterDesc{ characterDesc },
 	m_MoveAcceleration(characterDesc.maxMoveSpeed / characterDesc.moveAccelerationTime),
 	m_FallAcceleration(characterDesc.maxFallSpeed / characterDesc.fallAccelerationTime)
-{}
+{
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::stringstream filePath{};
+	filePath << "Resources/Sounds/Jump.mp3";
+	const auto result = pFmod->createStream(filePath.str().c_str(), FMOD_DEFAULT, nullptr, &m_pJumpSound);
+
+	SoundManager::Get()->ErrorCheck(result);
+
+	m_pChannel->setVolume(10.7f);
+}
 
 void Character::Initialize(const SceneContext& /*sceneContext*/)
 {
@@ -212,6 +221,12 @@ void Character::Update(const SceneContext& sceneContext)
 			//Set m_TotalVelocity.y equal to CharacterDesc::JumpSpeed
 			m_TotalVelocity.y = m_CharacterDesc.JumpSpeed;
 			m_Grounded = true;
+
+			const auto pFmod{ SoundManager::Get()->GetSystem() };
+
+			const auto result = pFmod->playSound(m_pJumpSound, nullptr, false, &m_pChannel);
+
+			SoundManager::Get()->ErrorCheck(result);
 		}
 		//Else (=Character is grounded, no input pressed)
 		else

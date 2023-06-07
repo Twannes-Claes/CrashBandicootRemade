@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "MainGame.h"
 
+#include "vld.h"
+
 int wmain(int argc, wchar_t* argv[])
 {
 	UNREFERENCED_PARAMETER(argc);

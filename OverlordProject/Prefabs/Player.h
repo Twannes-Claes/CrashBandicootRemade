@@ -1,4 +1,5 @@
 #pragma once
+class SpinParticle;
 class Character;
 
 class Player final : public GameObject
@@ -45,12 +46,16 @@ private:
 		Attack
 	};
 
+	void AttackCancelCheck();
+
 	void SetState(const PlayerState& state) const;
 	void CheckJump(const SceneContext& sceneContext);
 
 	void ChecKAttack(const SceneContext& sceneContext);
 
 	inline static PlayerState m_CurrentState{ Idle };
+
+	SpinParticle* m_pSpinPart{};
 
 	Character* m_pCharacter{};
 
@@ -59,5 +64,11 @@ private:
 	ModelAnimator* m_pAnimator{};
 
 	bool m_LockCursor{ true };
+
+	XMFLOAT3 m_StartPos{ -15.f, 35.f, -30.f };
+	XMFLOAT3 m_ParticleHidePos{0.f, -50.f,-0.f };
+
+	FMOD::Sound* m_pSpinSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 };
 

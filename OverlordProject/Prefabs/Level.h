@@ -1,4 +1,5 @@
 #pragma once
+#include "Crate.h"
 
 class Level final : public GameObject
 {
@@ -20,7 +21,12 @@ protected:
 
 private:
 
-	void SpawnCrate(float x, float y, float z, bool hasWumpa);
+	FMOD::Sound* m_pMusic{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
+
+	void AddBorderWalls();
+
+	void SpawnCrate(float x, float y, float z, Crate::CrateState state);
 
 	GameScene* m_pGameScene{};
 

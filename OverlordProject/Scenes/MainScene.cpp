@@ -8,11 +8,14 @@
 
 #include "Materials/Post/PostPixel.h"
 #include "Materials/Post/PostBlur.h"
+#include "Prefabs/WumpaHUD.h"
 
 void MainScene::Initialize()
 {
 	m_SceneContext.settings.enableOnGUI = true;
-	m_SceneContext.settings.drawGrid = false;
+	//m_SceneContext.settings.drawGrid = false;
+
+	m_SceneContext.settings.drawPhysXDebug = false;
 
 	AddChild(new Level(this));
 
@@ -24,12 +27,14 @@ void MainScene::Initialize()
 	AddPostProcessingEffect(m_pPostPixel);
 	AddPostProcessingEffect(m_pPostBlur);
 
-	m_pPostPixel->SetIsEnabled(false);
-	m_pPostBlur->SetIsEnabled(false);
+	m_pPostPixel->SetIsEnabled(true);
+	m_pPostBlur->SetIsEnabled(true);
 
 	m_pPostPixel->SetPixelResolution(m_PixelRes[0], m_PixelRes[1]);
 	m_pPostBlur->SetOffset(m_BlurOffset);
 	m_pPostBlur->SetSamples(m_BlurAmountSamples);
+
+	AddChild(new WumpaHUD());
 }
 
 void MainScene::Update()
